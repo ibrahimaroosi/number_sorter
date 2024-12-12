@@ -106,6 +106,15 @@
             const order = document.getElementById('order').value;
             const outputFormat = document.getElementById('outputFormat').value;
             const removeDuplicates = document.getElementById('removeDuplicates').value === 'true';
+
+            // Check if the input is empty
+            if (!input.trim()) {
+                document.getElementById('error').textContent = "Please enter some numbers.";
+                document.getElementById('output').textContent = "";
+                return;
+            } else {
+                document.getElementById('error').textContent = "";
+            }
             
             // Remove spaces and commas, and split the input into an array of numbers
             let numbers = input.replace(/[\s,]+/g, ' ').trim().split(' ').map(Number);
