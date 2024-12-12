@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Sorter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        select {
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        #output {
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Number Sorter</h1>
+        <label for="numbers">Enter numbers (separate by space, comma, or both):</label>
+        <input type="text" id="numbers" placeholder="e.g., 1 2, 3 4">
+        
+        <div class="options">
+            <label for="order">Sort Order:</label>
+            <select id="order">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+        
+        <div class="options">
+            <label for="outputFormat">Output Format:</label>
+            <select id="outputFormat">
+                <option value="csv">CSV</option>
+                <option value="space">Space Separated</option>
+            </select>
+        </div>
+
+        <div class="options">
+            <label for="removeDuplicates">Remove Duplicates:</label>
+            <select id="removeDuplicates">
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+            </select>
+        </div>
+        
+        <button onclick="sortNumbers()">Sort</button>
+        
+        <h2>Sorted Numbers:</h2>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function sortNumbers() {
+            const input = document.getElementById('numbers').value;
+            const order = document.getElementById('order').value;
+            const outputFormat = document.getElementById('outputFormat').value;
+            const removeDuplicates = document.getElementById('removeDuplicates').value === 'true';
+            
+            // Remove spaces and commas, and split the input into an array of numbers
+            let numbers = input.replace(/[\s,]+/g, ' ').trim().split(' ').map(Number);
+            
+            if (numbers.some(isNaN)) {
+                document.getElementById('output').textContent = "Please enter valid numbers!";
+                return;
+            }
+
+            // Remove duplicates if the user selected the option
+            if (removeDuplicates) {
+                numbers = [...new Set(numbers)];
+            }
+
+            // Sort the numbers based on the selected order
+            if (order === 'asc') {
+                numbers.sort((a, b) => a - b);
+            } else if (order === 'desc') {
+                numbers.sort((a, b) => b - a);
+            }
+
+            // Format output as CSV or space separated
+            let output;
+            if (outputFormat === 'csv') {
+                output = numbers.join(', ');
+            } else {
+                output = numbers.join(' ');
+            }
+
+            // Display the sorted numbers
+            document.getElementById('output').textContent = output;
+        }
+    </script>
+</body>
+</html>
